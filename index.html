@@ -1,0 +1,52 @@
+<script src="https://www.gstatic.com/firebasejs/5.3.1/firebase.js"></script>
+
+<body>
+
+<embed src="MOOC_Learnersourcing_Experiment_Fibonacci_Questions.pdf" type="application/pdf" width="100%" height="600px" />
+<p>
+    solve the problem on paper, take a screenshot, and upload the image file below.
+</p>
+<div id="filesubmit">
+  <input type="file" class="file-select" accept="image/*"/>
+  <button class="file-submit">SUBMIT</button>
+</div>
+</body>
+
+<script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyAmS8iKinyr-uuUQBXoYHRO4O35FGcKt1o",
+      authDomain: "learnersolutions-a1357.firebaseapp.com",
+      databaseURL: "https://learnersolutions-a1357.firebaseio.com",
+      projectId: "learnersolutions-a1357",
+      storageBucket: "learnersolutions-a1357.appspot.com",
+      messagingSenderId: "424076568236"
+    };
+  
+    firebase.initializeApp(config); 
+    
+    const storageService = firebase.storage();
+    const storageRef = storageService.ref();
+  
+    document.querySelector('.file-select').addEventListener('change', handleFileUploadChange);
+    document.querySelector('.file-submit').addEventListener('click', handleFileUploadSubmit);
+  
+    let selectedFile;
+    function handleFileUploadChange(e){
+      selectedFile = e.target.files[0];
+    }
+  
+    function handleFileUploadSubmit(e){
+      const uploadTask = storageRef.child('images/${selectedFile.name}').put(selectedFile); //create a child directory called images, and place the file inside this directory
+      uploadTask.on('state_changed', (snapshot) => {
+      // Observe state change events such as progress, pause, and resume
+    }, (error) => {
+      // Handle unsuccessful uploads
+      console.log(error);
+    }, () => {
+      // Do something once upload is complete
+      console.log('success');
+    });
+  }
+  
+  </script>
